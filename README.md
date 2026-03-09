@@ -40,15 +40,15 @@ Instead of hosting all projects here, each project has its **own repository**.
 
 🔐 **CipherKey – Password Generator**
 Secure password generator with customizable options.
-👉 https://github.com/srijansk13/cipherkey-password-generator
+👉 [https://github.com/srijansk13/cipherkey-password-generator](https://srijansk13.github.io/CipherKey/)
 
 📋 **Smart Task Manager**
 Task management application with filtering and local storage.
-👉 https://github.com/srijansk13/smart-task-manager
+👉 [https://github.com/srijansk13/smart-task-manager](https://srijansk13.github.io/smart-task-manager/)
 
 🌐 **Personal Portfolio Website**
 Responsive portfolio website showcasing projects and skills.
-👉 https://github.com/srijansk13/portfolio
+👉 [https://github.com/srijansk13/portfolio](https://srijansk13.github.io/portfolio/)
 
 ---
 
