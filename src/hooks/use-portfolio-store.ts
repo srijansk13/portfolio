@@ -106,6 +106,7 @@ export const usePortfolioStore = create<PortfolioState>((set, get) => ({
           { line: "  projects    - List featured engineering projects", type: "output" },
           { line: "  contact     - Show email and social contact links", type: "output" },
           { line: "  education   - Show academic background", type: "output" },
+          { line: "  resume      - Open resume PDF in new tab", type: "output" },
           { line: "  theme [col] - Switch accent (blue, violet, cyan, pink, emerald)", type: "output" },
           { line: "  matrix      - Toggle matrix screensaver mode", type: "output" },
           { line: "  sudo        - Request superuser access", type: "output" },
@@ -164,6 +165,16 @@ export const usePortfolioStore = create<PortfolioState>((set, get) => ({
         PORTFOLIO_DATA.education.forEach(e => {
           logs.push({ line: `  ${e.degree} — ${e.institution} (${e.gradeLabel}: ${e.grade})`, type: "output" });
         });
+        break;
+      case "resume":
+        logs.push(
+          { line: "📄 Resume: Srijan Kumar Goud", type: "success" },
+          { line: `   URL: ${PORTFOLIO_DATA.personal.resumeUrl}`, type: "output" },
+          { line: "   Opening in new tab...", type: "output" }
+        );
+        if (typeof window !== "undefined" && PORTFOLIO_DATA.personal.resumeUrl) {
+          window.open(PORTFOLIO_DATA.personal.resumeUrl, "_blank", "noopener,noreferrer");
+        }
         break;
       default:
         logs.push({ line: `sk-os: command not found: '${cmd}'. Type 'help' for options.`, type: "error" });

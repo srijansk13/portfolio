@@ -1,11 +1,11 @@
 "use client";
 
 import React, { useState, useEffect, useRef } from "react";
+import { PORTFOLIO_DATA } from "@/data/portfolio-data";
 import { motion, AnimatePresence } from "framer-motion";
 import { Terminal, Sparkles, Command, Menu, X, ArrowUpRight, FileText } from "lucide-react";
 import { FaGithub, FaLinkedin, FaWhatsapp } from "react-icons/fa";
 import { usePortfolioStore } from "@/hooks/use-portfolio-store";
-import { PORTFOLIO_DATA } from "@/data/portfolio-data";
 import MagneticButton from "./magnetic-button";
 
 const NAV_ITEMS = [
@@ -160,16 +160,17 @@ export default function Navigation() {
                 <Terminal className="h-4.5 w-4.5" />
               </button>
 
-              {/* Resume — Coming Soon */}
-              <button
-                disabled
-                title="Resume coming soon"
-                className="hidden md:flex items-center gap-1.5 h-10 text-xs px-4 rounded-xl border border-white/[0.06] bg-white/[0.02] text-neutral-500 font-semibold cursor-not-allowed select-none"
+              {/* Resume Download */}
+              <a
+                href={PORTFOLIO_DATA.personal.resumeUrl ?? "#"}
+                target="_blank"
+                rel="noopener noreferrer"
+                download
+                className="hidden md:flex items-center gap-1.5 h-10 text-xs px-4 rounded-xl border border-white/[0.10] bg-white/[0.04] text-neutral-200 font-semibold hover:bg-white/[0.08] hover:border-white/20 hover:text-white transition-all select-none"
               >
                 <FileText className="h-3.5 w-3.5" />
                 Resume
-                <span className="text-[8px] bg-amber-500/20 text-amber-400 border border-amber-500/30 rounded-full px-1.5 py-0.5 font-mono tracking-wider">SOON</span>
-              </button>
+              </a>
 
               {/* Mobile menu trigger */}
               <button
@@ -233,13 +234,16 @@ export default function Navigation() {
                   <FaWhatsapp className="h-6 w-6" />
                 </a>
               </div>
-              <button
-                disabled
-                className="w-full text-center py-4 bg-white/5 border border-white/10 text-neutral-500 font-semibold rounded-xl text-sm flex items-center justify-center gap-2 cursor-not-allowed"
+              <a
+                href={PORTFOLIO_DATA.personal.resumeUrl ?? "#"}
+                target="_blank"
+                rel="noopener noreferrer"
+                download
+                className="w-full text-center py-4 bg-white/[0.05] border border-white/[0.12] text-neutral-200 font-semibold rounded-xl text-sm flex items-center justify-center gap-2 hover:bg-white/[0.10] hover:border-white/20 hover:text-white transition-all"
               >
                 <FileText className="h-4 w-4" />
-                Resume Coming Soon
-              </button>
+                Download Resume
+              </a>
             </div>
           </motion.div>
         )}

@@ -56,7 +56,9 @@ export default function CommandPalette() {
     { label: "Switch Accent: Space Violet", action: () => { updateTheme({ accentColor: "violet" }); addToast("Accent switched to Space Violet", "success"); setPaletteOpen(false); }, category: "THEME" },
     { label: "Switch Accent: Neon Cyan", action: () => { updateTheme({ accentColor: "cyan" }); addToast("Accent switched to Neon Cyan", "success"); setPaletteOpen(false); }, category: "THEME" },
     { label: "Switch Accent: Hot Pink", action: () => { updateTheme({ accentColor: "pink" }); addToast("Accent switched to Hot Pink", "success"); setPaletteOpen(false); }, category: "THEME" },
-    { label: "Switch Accent: Emerald Green", action: () => { updateTheme({ accentColor: "emerald" }); addToast("Accent switched to Emerald Green", "success"); setPaletteOpen(false); }, category: "THEME" }
+    { label: "Switch Accent: Emerald Green", action: () => { updateTheme({ accentColor: "emerald" }); addToast("Accent switched to Emerald Green", "success"); setPaletteOpen(false); }, category: "THEME" },
+
+    { label: "Download Resume (PDF)", action: () => { setPaletteOpen(false); window.open(PORTFOLIO_DATA.personal.resumeUrl ?? "#", "_blank", "noopener,noreferrer"); }, category: "RESUME" },
   ];
 
   const filteredCommands = commandItems.filter(

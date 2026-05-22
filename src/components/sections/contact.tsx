@@ -194,30 +194,41 @@ export default function Contact() {
             })}
           </div>
 
-          {/* Resume placeholder card */}
+          {/* Resume Download card */}
           <motion.div
             initial={{ opacity: 0, y: 16 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.5, delay: 0.3 }}
           >
-            <GlassCard className="p-5 border-amber-500/[0.08] bg-amber-500/[0.02]">
-              <div className="flex items-center justify-between mb-2">
-                <div className="flex items-center gap-2">
-                  <FileText className="h-4 w-4 text-amber-400" />
-                  <span className="text-amber-400 text-xs font-mono font-semibold uppercase tracking-wider">
-                    Resume
+            <a
+              href={PORTFOLIO_DATA.personal.resumeUrl ?? "#"}
+              target="_blank"
+              rel="noopener noreferrer"
+              download
+              className="block group"
+            >
+              <GlassCard className="p-5 border-white/[0.06] bg-white/[0.02] hover:border-white/[0.14] hover:bg-white/[0.04] transition-all cursor-pointer">
+                <div className="flex items-center justify-between mb-2">
+                  <div className="flex items-center gap-2">
+                    <FileText className="h-4 w-4 text-neutral-300" />
+                    <span className="text-neutral-200 text-xs font-mono font-semibold uppercase tracking-wider">
+                      Resume
+                    </span>
+                  </div>
+                  <span className="text-[9px] uppercase font-mono tracking-wider text-emerald-400 bg-emerald-500/10 border border-emerald-500/20 px-2 py-0.5 rounded-full">
+                    Available
                   </span>
                 </div>
-                <span className="text-[9px] uppercase font-mono tracking-wider text-amber-500/80 bg-amber-500/10 border border-amber-500/20 px-2 py-0.5 rounded-full">
-                  Coming Soon
-                </span>
-              </div>
-              <p className="text-neutral-500 text-xs leading-relaxed">
-                Resume is being finalised and will be available for download shortly.
-                Reach out via email or LinkedIn in the meantime.
-              </p>
-            </GlassCard>
+                <p className="text-neutral-500 text-xs leading-relaxed">
+                  Download my resume to learn about my experience, skills, and projects.
+                </p>
+                <div className="mt-3 flex items-center gap-1.5 text-xs font-semibold text-neutral-300 group-hover:text-white transition-colors">
+                  <ArrowUpRight className="h-3.5 w-3.5 group-hover:-translate-y-0.5 group-hover:translate-x-0.5 transition-transform" />
+                  Download PDF
+                </div>
+              </GlassCard>
+            </a>
           </motion.div>
         </div>
 

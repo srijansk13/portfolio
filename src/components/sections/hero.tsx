@@ -178,16 +178,17 @@ export default function Hero() {
               Contact Me
             </MagneticButton>
 
-            {/* Resume — Coming Soon */}
-            <button
-              disabled
-              className="relative h-12 px-7 rounded-xl border border-white/[0.06] bg-white/[0.02] text-neutral-500 font-semibold text-sm flex items-center gap-2 cursor-not-allowed select-none"
-              title="Resume will be available soon"
+            {/* Resume Download */}
+            <a
+              href={PORTFOLIO_DATA.personal.resumeUrl ?? "#"}
+              target="_blank"
+              rel="noopener noreferrer"
+              download
+              className="relative h-12 px-7 rounded-xl border border-white/[0.12] bg-white/[0.04] text-neutral-200 font-semibold text-sm flex items-center gap-2 hover:bg-white/[0.08] hover:border-white/20 hover:text-white transition-all select-none"
             >
               <FileText className="h-4 w-4" />
-              Resume Coming Soon
-              <span className="absolute -top-2 -right-2 rounded-full bg-amber-500/20 border border-amber-500/30 px-1.5 py-0.5 text-[8px] font-bold text-amber-400 uppercase tracking-wider">Soon</span>
-            </button>
+              Download Resume
+            </a>
           </motion.div>
 
           {/* Social Links */}

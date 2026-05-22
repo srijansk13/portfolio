@@ -63,7 +63,7 @@ export const PORTFOLIO_DATA = {
     tagline: "Building premium SaaS experiences, AI-powered applications, and modern interactive web systems.",
     bio: "Computer Science student focused on building AI-powered SaaS products, premium frontend systems, and immersive modern web experiences.",
     location: "Hyderabad, India",
-    resumeUrl: null, // Not available yet
+    resumeUrl: "/resume/Srijan_Kumar_Goud_Resume.pdf",
     email: "srijansk1304@gmail.com",
     availability: "Open to internships, projects & collaborations",
     responseTime: "Usually < 4 hours",
