@@ -194,41 +194,48 @@ export default function Contact() {
             })}
           </div>
 
-          {/* Resume Download card */}
+          {/* Resume Actions card */}
           <motion.div
             initial={{ opacity: 0, y: 16 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.5, delay: 0.3 }}
           >
-            <a
-              href={PORTFOLIO_DATA.personal.resumeUrl ?? "#"}
-              target="_blank"
-              rel="noopener noreferrer"
-              download
-              className="block group"
-            >
-              <GlassCard className="p-5 border-white/[0.06] bg-white/[0.02] hover:border-white/[0.14] hover:bg-white/[0.04] transition-all cursor-pointer">
-                <div className="flex items-center justify-between mb-2">
-                  <div className="flex items-center gap-2">
-                    <FileText className="h-4 w-4 text-neutral-300" />
-                    <span className="text-neutral-200 text-xs font-mono font-semibold uppercase tracking-wider">
-                      Resume
-                    </span>
-                  </div>
-                  <span className="text-[9px] uppercase font-mono tracking-wider text-emerald-400 bg-emerald-500/10 border border-emerald-500/20 px-2 py-0.5 rounded-full">
-                    Available
+            <GlassCard className="p-5 border-white/[0.06] bg-white/[0.02] transition-all">
+              <div className="flex items-center justify-between mb-2">
+                <div className="flex items-center gap-2">
+                  <FileText className="h-4 w-4 text-neutral-300" />
+                  <span className="text-neutral-200 text-xs font-mono font-semibold uppercase tracking-wider">
+                    Resume
                   </span>
                 </div>
-                <p className="text-neutral-500 text-xs leading-relaxed">
-                  Download my resume to learn about my experience, skills, and projects.
-                </p>
-                <div className="mt-3 flex items-center gap-1.5 text-xs font-semibold text-neutral-300 group-hover:text-white transition-colors">
-                  <ArrowUpRight className="h-3.5 w-3.5 group-hover:-translate-y-0.5 group-hover:translate-x-0.5 transition-transform" />
+                <span className="text-[9px] uppercase font-mono tracking-wider text-emerald-400 bg-emerald-500/10 border border-emerald-500/20 px-2 py-0.5 rounded-full">
+                  Available
+                </span>
+              </div>
+              <p className="text-neutral-500 text-xs leading-relaxed mb-4">
+                View or download my resume to learn about my experience, skills, and projects.
+              </p>
+              <div className="flex items-center gap-2">
+                <a
+                  href={PORTFOLIO_DATA.personal.resumeUrl ?? "#"}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="flex-1 text-center py-2 px-3 rounded-lg bg-white text-black text-[10px] font-mono font-bold uppercase tracking-wider hover:bg-neutral-200 transition-all flex items-center justify-center gap-1.5"
+                >
+                  <FileText className="h-3 w-3" />
+                  View Resume
+                </a>
+                <a
+                  href={PORTFOLIO_DATA.personal.resumeUrl ?? "#"}
+                  download="Srijan_Kumar_Goud_Resume.pdf"
+                  className="flex-1 text-center py-2 px-3 rounded-lg bg-white/[0.05] border border-white/[0.10] text-neutral-300 text-[10px] font-mono font-semibold uppercase tracking-wider hover:bg-white/[0.10] hover:text-white transition-all flex items-center justify-center gap-1.5"
+                >
+                  <ArrowUpRight className="h-3 w-3" />
                   Download PDF
-                </div>
-              </GlassCard>
-            </a>
+                </a>
+              </div>
+            </GlassCard>
           </motion.div>
         </div>
 

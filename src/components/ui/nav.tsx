@@ -160,16 +160,15 @@ export default function Navigation() {
                 <Terminal className="h-4.5 w-4.5" />
               </button>
 
-              {/* Resume Download */}
+              {/* View Resume */}
               <a
                 href={PORTFOLIO_DATA.personal.resumeUrl ?? "#"}
                 target="_blank"
                 rel="noopener noreferrer"
-                download
                 className="hidden md:flex items-center gap-1.5 h-10 text-xs px-4 rounded-xl border border-white/[0.10] bg-white/[0.04] text-neutral-200 font-semibold hover:bg-white/[0.08] hover:border-white/20 hover:text-white transition-all select-none"
               >
                 <FileText className="h-3.5 w-3.5" />
-                Resume
+                View Resume
               </a>
 
               {/* Mobile menu trigger */}
@@ -238,10 +237,17 @@ export default function Navigation() {
                 href={PORTFOLIO_DATA.personal.resumeUrl ?? "#"}
                 target="_blank"
                 rel="noopener noreferrer"
-                download
-                className="w-full text-center py-4 bg-white/[0.05] border border-white/[0.12] text-neutral-200 font-semibold rounded-xl text-sm flex items-center justify-center gap-2 hover:bg-white/[0.10] hover:border-white/20 hover:text-white transition-all"
+                className="w-full text-center py-4 bg-white text-black font-semibold rounded-xl text-sm flex items-center justify-center gap-2 hover:bg-neutral-200 transition-all"
               >
                 <FileText className="h-4 w-4" />
+                View Resume
+              </a>
+              <a
+                href={PORTFOLIO_DATA.personal.resumeUrl ?? "#"}
+                download="Srijan_Kumar_Goud_Resume.pdf"
+                className="w-full text-center py-3 bg-white/[0.04] border border-white/[0.10] text-neutral-300 font-medium rounded-xl text-sm flex items-center justify-center gap-2 hover:bg-white/[0.08] hover:border-white/20 hover:text-white transition-all"
+              >
+                <ArrowUpRight className="h-4 w-4" />
                 Download Resume
               </a>
             </div>

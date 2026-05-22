@@ -58,7 +58,8 @@ export default function CommandPalette() {
     { label: "Switch Accent: Hot Pink", action: () => { updateTheme({ accentColor: "pink" }); addToast("Accent switched to Hot Pink", "success"); setPaletteOpen(false); }, category: "THEME" },
     { label: "Switch Accent: Emerald Green", action: () => { updateTheme({ accentColor: "emerald" }); addToast("Accent switched to Emerald Green", "success"); setPaletteOpen(false); }, category: "THEME" },
 
-    { label: "Download Resume (PDF)", action: () => { setPaletteOpen(false); window.open(PORTFOLIO_DATA.personal.resumeUrl ?? "#", "_blank", "noopener,noreferrer"); }, category: "RESUME" },
+    { label: "View Resume (PDF)", action: () => { setPaletteOpen(false); window.open(PORTFOLIO_DATA.personal.resumeUrl ?? "#", "_blank", "noopener,noreferrer"); }, category: "RESUME" },
+    { label: "Download Resume (PDF)", action: () => { setPaletteOpen(false); const a = document.createElement("a"); a.href = PORTFOLIO_DATA.personal.resumeUrl ?? "#"; a.download = "Srijan_Kumar_Goud_Resume.pdf"; a.click(); }, category: "RESUME" },
   ];
 
   const filteredCommands = commandItems.filter(

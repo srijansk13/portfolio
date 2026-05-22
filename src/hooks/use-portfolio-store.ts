@@ -170,7 +170,8 @@ export const usePortfolioStore = create<PortfolioState>((set, get) => ({
         logs.push(
           { line: "📄 Resume: Srijan Kumar Goud", type: "success" },
           { line: `   URL: ${PORTFOLIO_DATA.personal.resumeUrl}`, type: "output" },
-          { line: "   Opening in new tab...", type: "output" }
+          { line: "   → Opening in new tab to view...", type: "output" },
+          { line: "   → Use 'resume download' or visit the Contact section to download.", type: "output" }
         );
         if (typeof window !== "undefined" && PORTFOLIO_DATA.personal.resumeUrl) {
           window.open(PORTFOLIO_DATA.personal.resumeUrl, "_blank", "noopener,noreferrer");

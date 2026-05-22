@@ -178,16 +178,25 @@ export default function Hero() {
               Contact Me
             </MagneticButton>
 
-            {/* Resume Download */}
+            {/* View Resume */}
             <a
               href={PORTFOLIO_DATA.personal.resumeUrl ?? "#"}
               target="_blank"
               rel="noopener noreferrer"
-              download
               className="relative h-12 px-7 rounded-xl border border-white/[0.12] bg-white/[0.04] text-neutral-200 font-semibold text-sm flex items-center gap-2 hover:bg-white/[0.08] hover:border-white/20 hover:text-white transition-all select-none"
             >
               <FileText className="h-4 w-4" />
-              Download Resume
+              View Resume
+            </a>
+
+            {/* Download Resume */}
+            <a
+              href={PORTFOLIO_DATA.personal.resumeUrl ?? "#"}
+              download="Srijan_Kumar_Goud_Resume.pdf"
+              className="relative h-12 px-5 rounded-xl border border-white/[0.08] bg-white/[0.02] text-neutral-400 font-medium text-sm flex items-center gap-2 hover:bg-white/[0.06] hover:border-white/15 hover:text-neutral-200 transition-all select-none"
+            >
+              <ExternalLink className="h-3.5 w-3.5" />
+              Download
             </a>
           </motion.div>
 

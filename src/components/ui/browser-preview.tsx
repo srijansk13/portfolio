@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState, useEffect, useRef } from "react";
-import { motion, AnimatePresence } from "framer-motion";
+import { motion } from "framer-motion";
 import { Globe, ExternalLink, ShieldAlert, MousePointerClick, Lock, RefreshCw } from "lucide-react";
 
 interface BrowserPreviewProps {
@@ -15,37 +15,43 @@ export default function BrowserPreview({
   url,
   title,
   isCompact = false,
-  accentColor = "#10b981", // default emerald-500
+  accentColor = "#10b981",
 }: BrowserPreviewProps) {
   const [mounted, setMounted] = useState(false);
   const [loading, setLoading] = useState(true);
-  const [interactive, setInteractive] = useState(false);
   const [failed, setFailed] = useState(false);
+  const [interactive, setInteractive] = useState(false);
+  const [retryKey, setRetryKey] = useState(0);
   const containerRef = useRef<HTMLDivElement>(null);
   const timeoutRef = useRef<NodeJS.Timeout | null>(null);
 
   // Trim URL for display in browser bar
   const displayUrl = url.replace(/^https?:\/\//, "").replace(/\/$/, "");
 
-  // Mount logic for Next.js SSR compatibility
-  useEffect(() => {
-    setMounted(true);
-
-    // Timeout fallback (6 seconds)
+  const startTimeout = () => {
+    if (timeoutRef.current) clearTimeout(timeoutRef.current);
     timeoutRef.current = setTimeout(() => {
-      setLoading((prevLoading) => {
-        if (prevLoading) {
-          // If still loading after 6s, trigger fallback state
+      setLoading((prev) => {
+        if (prev) {
           setFailed(true);
           return false;
         }
-        return prevLoading;
+        return prev;
       });
-    }, 6000);
+    }, 12000);
+  };
+
+  // Mount logic for Next.js SSR compatibility
+  useEffect(() => {
+    setMounted(true);
+    setLoading(true);
+    setFailed(false);
+    startTimeout();
 
     return () => {
       if (timeoutRef.current) clearTimeout(timeoutRef.current);
     };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   // Handle clicking outside to automatically disable interactive sandbox mode
@@ -81,26 +87,16 @@ export default function BrowserPreview({
     setFailed(false);
     setLoading(true);
     setInteractive(false);
-
-    // Start a new timeout
-    if (timeoutRef.current) clearTimeout(timeoutRef.current);
-    timeoutRef.current = setTimeout(() => {
-      setLoading((prevLoading) => {
-        if (prevLoading) {
-          setFailed(true);
-          return false;
-        }
-        return prevLoading;
-      });
-    }, 6000);
+    setRetryKey((k) => k + 1);
+    startTimeout();
   };
 
   return (
     <div
       ref={containerRef}
       className={`relative rounded-xl border overflow-hidden flex flex-col w-full transition-all duration-500 bg-neutral-950/80 backdrop-blur-md group-hover:shadow-[0_0_30px_rgba(255,255,255,0.02)] ${
-        isCompact 
-          ? "h-[180px] border-white/[0.04] mb-4" 
+        isCompact
+          ? "h-[180px] border-white/[0.04] mb-4"
           : "h-[300px] sm:h-[340px] border-white/[0.06] mb-6"
       }`}
       style={{
@@ -108,7 +104,7 @@ export default function BrowserPreview({
       }}
     >
       {/* ── Browser Chrome ── */}
-      <div 
+      <div
         className={`flex items-center justify-between bg-neutral-950/95 border-b border-white/[0.05] shrink-0 select-none ${
           isCompact ? "px-3 py-1.5" : "px-4 py-2.5"
         }`}
@@ -121,7 +117,7 @@ export default function BrowserPreview({
         </div>
 
         {/* Address bar */}
-        <div 
+        <div
           className={`font-mono text-neutral-500 bg-neutral-900/60 border border-white/5 px-4 rounded-md truncate select-all flex items-center gap-1.5 ${
             isCompact ? "text-[8px] py-0.5 max-w-[130px]" : "text-[10px] py-1 max-w-[180px] sm:max-w-xs"
           }`}
@@ -133,15 +129,15 @@ export default function BrowserPreview({
         {/* Action badge or simple spacer */}
         <div>
           {!isCompact ? (
-            <span 
+            <span
               className="text-[8px] font-mono font-bold tracking-wider uppercase px-2 py-0.5 rounded border flex items-center gap-1"
               style={{
                 color: accentColor,
                 borderColor: `${accentColor}30`,
-                backgroundColor: `${accentColor}05`
+                backgroundColor: `${accentColor}05`,
               }}
             >
-              <span className={`h-1 w-1 rounded-full`} style={{ backgroundColor: accentColor }} />
+              <span className="h-1 w-1 rounded-full" style={{ backgroundColor: accentColor }} />
               Live Preview
             </span>
           ) : (
@@ -152,26 +148,32 @@ export default function BrowserPreview({
 
       {/* ── Viewport ── */}
       <div className="flex-1 bg-[#040407] relative overflow-hidden flex items-center justify-center">
-        {/* 1. Client-side Iframe rendering */}
-        {mounted && !failed && (
+
+        {/* 1. Client-side Iframe — only renders after mount */}
+        {mounted && (
           <iframe
+            key={`${url}-${retryKey}`}
             src={url}
+            title={title}
+            loading="lazy"
+            sandbox="allow-scripts allow-same-origin allow-forms allow-popups allow-popups-to-escape-sandbox"
+            referrerPolicy="no-referrer-when-downgrade"
             onLoad={handleIframeLoad}
             onError={handleIframeError}
-            loading="lazy"
-            sandbox="allow-scripts allow-same-origin allow-forms allow-popups"
-            referrerPolicy="no-referrer-when-downgrade"
-            className={`w-full h-full border-none bg-neutral-950 transition-all duration-700 ${
-              isCompact ? "pointer-events-none select-none scale-[0.95] origin-top" : ""
-            } ${loading ? "opacity-0 scale-95" : "opacity-100 scale-100"}`}
             style={{
-              pointerEvents: interactive ? "auto" : "none",
+              width: "100%",
+              height: "100%",
+              border: "none",
+              pointerEvents: isCompact ? "none" : interactive ? "auto" : "none",
+              opacity: loading || failed ? 0 : 1,
+              transition: "opacity 0.5s ease",
+              display: failed ? "none" : "block",
             }}
           />
         )}
 
         {/* 2. Loading Shimmer & Skeleton */}
-        {loading && (
+        {loading && !failed && (
           <div className="absolute inset-0 flex flex-col p-5 gap-4 bg-neutral-950 z-20 animate-pulse animate-duration-1000">
             <div className="flex items-center gap-3">
               <div className="h-9 w-9 rounded-xl bg-neutral-900 shrink-0" />
@@ -182,7 +184,7 @@ export default function BrowserPreview({
             </div>
             <div className="flex-1 bg-neutral-950 border border-white/[0.02] rounded-xl flex flex-col items-center justify-center p-6 gap-3">
               <div className="relative flex h-8 w-8 items-center justify-center">
-                <span 
+                <span
                   className="animate-ping absolute inline-flex h-full w-full rounded-full opacity-75"
                   style={{ backgroundColor: `${accentColor}20` }}
                 />
@@ -228,7 +230,7 @@ export default function BrowserPreview({
         {/* 5. Fallback Error Card UI */}
         {failed && (
           <div className="absolute inset-0 z-20 flex flex-col items-center justify-center p-6 bg-neutral-950 text-center select-none">
-            <div 
+            <div
               className="h-10 w-10 rounded-full flex items-center justify-center border mb-3 shrink-0"
               style={{
                 backgroundColor: `${accentColor}10`,
@@ -257,7 +259,7 @@ export default function BrowserPreview({
                 className="px-3 py-1.5 rounded-lg bg-neutral-900 border border-white/10 hover:bg-neutral-800 text-[10px] font-mono text-neutral-400 hover:text-neutral-200 uppercase tracking-wider transition-all flex items-center gap-1"
               >
                 <RefreshCw className="h-3 w-3" />
-                <span>Retry</span>
+                <span>Retry Preview</span>
               </button>
             </div>
           </div>
