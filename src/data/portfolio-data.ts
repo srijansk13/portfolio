@@ -129,7 +129,7 @@ export const PORTFOLIO_DATA = {
         "Multi-Key AI Rotation",
       ],
       github: "https://github.com/srijansk13",
-      live: "https://ai-resume-analyzer-career-copilot-s.vercel.app/",
+      live: "https://careercopilotapp.vercel.app/",
       status: "production",
       caseStudy: {
         problem: "Job seekers lack real, actionable intelligence on why their resumes fail ATS filters. Generic advice doesn't account for keyword density, formatting penalties, or role-specific scoring algorithms.",
