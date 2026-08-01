@@ -175,6 +175,8 @@ export default function Navigation() {
               <button
                 onClick={() => setMobileMenuOpen(true)}
                 className="flex items-center justify-center rounded-full p-2 text-neutral-400 hover:text-white hover:bg-white/5 lg:hidden transition-all"
+                aria-expanded={mobileMenuOpen}
+                aria-label="Open menu"
               >
                 <Menu className="h-5 w-5" />
               </button>

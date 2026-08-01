@@ -64,6 +64,7 @@ export default function Contact() {
   const [submitted, setSubmitted] = useState(false);
   const { theme, addToast } = usePortfolioStore();
   const accentColor = theme.accentHex;
+  const FORMSPREE_ENDPOINT = process.env.NEXT_PUBLIC_FORMSPREE_ENDPOINT || "";
 
   const handleInputChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
@@ -72,19 +73,47 @@ export default function Contact() {
     setFormData((prev) => ({ ...prev, [name]: value }));
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!formData.name || !formData.email || !formData.message) {
       addToast("Please fill all fields", "warning");
       return;
     }
+    
+    if (!FORMSPREE_ENDPOINT || FORMSPREE_ENDPOINT === "PASTE_YOUR_FORMSPREE_ENDPOINT_HERE") {
+      addToast("Contact form is currently unavailable. Please try reaching out via email directly.", "warning");
+      return;
+    }
+
     setIsSubmitting(true);
-    setTimeout(() => {
+    
+    try {
+      const response = await fetch(FORMSPREE_ENDPOINT, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Accept: "application/json",
+        },
+        body: JSON.stringify(formData),
+      });
+
+      if (response.ok) {
+        setSubmitted(true);
+        addToast("Message sent successfully!", "success");
+        setFormData({ name: "", email: "", message: "" });
+      } else {
+        const data = await response.json();
+        if (Object.hasOwn(data, 'errors')) {
+          addToast(data.errors.map((error: any) => error.message).join(", "), "warning");
+        } else {
+          addToast("Failed to send message.", "warning");
+        }
+      }
+    } catch (error) {
+      addToast("An error occurred. Please try again.", "warning");
+    } finally {
       setIsSubmitting(false);
-      setSubmitted(true);
-      addToast("Message sent successfully!", "success");
-      setFormData({ name: "", email: "", message: "" });
-    }, 1500);
+    }
   };
 
   return (

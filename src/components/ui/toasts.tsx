@@ -9,7 +9,7 @@ export default function Toasts() {
   const { toasts, removeToast } = usePortfolioStore();
 
   return (
-    <div className="fixed bottom-6 left-6 z-100 flex flex-col gap-2 max-w-sm w-full select-none pointer-events-none">
+    <div className="fixed bottom-6 left-6 z-100 flex flex-col gap-2 max-w-sm w-full select-none pointer-events-none" aria-live="polite">
       <AnimatePresence>
         {toasts.map((toast) => (
           <motion.div

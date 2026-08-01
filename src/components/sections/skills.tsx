@@ -157,7 +157,13 @@ export default function Skills() {
                       <span className="text-neutral-600">Proficiency</span>
                       <span style={{ color }}>{skill.level}%</span>
                     </div>
-                    <div className="h-1 w-full rounded-full bg-neutral-900/80 overflow-hidden border border-white/[0.02]">
+                    <div 
+                      className="h-1 w-full rounded-full bg-neutral-900/80 overflow-hidden border border-white/[0.02]"
+                      role="progressbar"
+                      aria-valuenow={skill.level}
+                      aria-valuemin={0}
+                      aria-valuemax={100}
+                    >
                       <motion.div
                         initial={{ width: 0 }}
                         whileInView={{ width: `${skill.level}%` }}

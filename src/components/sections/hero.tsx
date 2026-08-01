@@ -322,11 +322,12 @@ export default function Hero() {
                     sizes="(max-width: 640px) 280px, (max-width: 1024px) 320px, 360px"
                     priority
                     quality={95}
+                    unoptimized={true}
                     onError={() => setImageError(true)}
                     className="object-cover object-[center_20%] scale-[1.12] transition-transform duration-700 ease-out group-hover/portrait:scale-[1.18]"
                   />
                   {/* Subtle dark vignette blending layers */}
-                  <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,transparent_35%,rgba(2,2,4,0.9)_100%)] z-10 pointer-events-none mix-blend-multiply" />
+                  <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,transparent_35%,rgba(2,2,4,0.9)_100%)] z-10 pointer-events-none" />
                   <div className="absolute inset-0 bg-gradient-to-t from-[#020204] via-[#020204]/40 to-transparent opacity-95 z-10 pointer-events-none" />
                 </div>
               ) : (
@@ -358,7 +359,7 @@ export default function Hero() {
                 className="absolute bottom-16 left-3 rounded-xl border border-white/10 bg-black/60 backdrop-blur-sm px-3 py-2 text-left z-20"
               >
                 <p className="text-[9px] text-neutral-500 font-mono uppercase tracking-wider">CGPA</p>
-                <p className="text-white font-bold text-sm font-mono">8.95 / 10</p>
+                <p className="text-white font-bold text-sm font-mono">9.65 / 10</p>
               </motion.div>
 
               <motion.div

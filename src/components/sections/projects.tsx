@@ -25,14 +25,7 @@ import MagneticButton from "../ui/magnetic-button";
 import BrowserPreview from "../ui/browser-preview";
 
 
-// ─── Secondary project icon map ─────────────────────────────────────────────
 
-const SECONDARY_ICONS: Record<string, React.ReactNode> = {
-  "career-landing": <Brain className="h-5 w-5" />,
-  "auracalc-x": <Calculator className="h-5 w-5" />,
-  "cipherkey": <Lock className="h-5 w-5" />,
-  "smart-task-manager": <CheckSquare className="h-5 w-5" />,
-};
 
 // ─── Main component ──────────────────────────────────────────────────────────
 
@@ -185,107 +178,7 @@ export default function ProjectsShowcase() {
         })}
       </div>
 
-      {/* ── Secondary Projects Grid ── */}
-      <div>
-        <div className="flex flex-col items-start mb-10">
-          <div className="flex items-center gap-2 rounded-full border border-white/[0.08] bg-white/[0.03] px-3.5 py-1 text-xs text-neutral-400 mb-4">
-            <Layers className="h-3.5 w-3.5" />
-            <span>MORE PROJECTS</span>
-          </div>
-          <h3 className="text-2xl font-bold tracking-tight sm:text-3xl bg-gradient-to-r from-white to-neutral-500 bg-clip-text text-transparent">
-            Other Builds
-          </h3>
-        </div>
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-          {PORTFOLIO_DATA.secondaryProjects.map((proj, idx) => {
-            const isHovered = hoveredCardId === proj.id;
-            return (
-              <motion.div
-                key={proj.id}
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.5, delay: idx * 0.08 }}
-                whileHover={{ 
-                  y: -8,
-                  transition: { type: "spring", stiffness: 400, damping: 25 }
-                }}
-                onMouseEnter={() => setHoveredCardId(proj.id)}
-                onMouseLeave={() => setHoveredCardId(null)}
-              >
-                <GlassCard 
-                  className="group h-full flex flex-col justify-between p-5 border-white/[0.02] transition-all duration-500 ease-[cubic-bezier(0.16,1,0.3,1)]"
-                  style={{
-                    borderColor: isHovered ? `${accentColor}30` : "rgba(255,255,255,0.02)",
-                    boxShadow: isHovered ? `0 0 40px ${accentColor}12` : `0 0 20px rgba(0,0,0,0.1)`,
-                  }}
-                >
-                  {/* Compact Browser Frame + Info */}
-                  <div>
-                    <div className="group-hover:scale-[1.025] transition-transform duration-500 ease-[cubic-bezier(0.16,1,0.3,1)] origin-center">
-                      <BrowserPreview url={proj.live} title={proj.name} isCompact={true} accentColor={accentColor} />
-                    </div>
-
-                    <div className="flex items-center gap-2.5 mb-2 mt-4">
-                      <div
-                        className="h-8 w-8 rounded-lg flex items-center justify-center border shrink-0"
-                        style={{
-                          backgroundColor: `${accentColor}10`,
-                          borderColor: `${accentColor}25`,
-                          color: accentColor,
-                        }}
-                      >
-                        {SECONDARY_ICONS[proj.id] || <BarChart3 className="h-4 w-4" />}
-                      </div>
-                      <h4 className="text-sm font-bold text-white tracking-tight group-hover:text-neutral-200 transition-colors">
-                        {proj.name}
-                      </h4>
-                    </div>
-
-                    <p className="text-neutral-500 text-xs leading-relaxed mb-4 min-h-[36px]">
-                      {proj.shortDesc}
-                    </p>
-                    <div className="flex flex-wrap gap-1 mb-5">
-                      {proj.techStack.map((t) => (
-                        <span
-                          key={t}
-                          className="rounded bg-neutral-900/60 border border-white/[0.04] px-1.5 py-0.5 font-mono text-[9px] text-neutral-500 uppercase tracking-wider"
-                        >
-                          {t}
-                        </span>
-                      ))}
-                    </div>
-                  </div>
-
-                  {/* Links */}
-                  <div className="flex items-center gap-2 pt-4 border-t border-white/[0.04] mt-auto">
-                    <a
-                      href={proj.live}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="flex items-center gap-1.5 text-[10px] font-mono font-semibold text-neutral-500 group-hover:text-neutral-300 hover:text-white transition-colors uppercase tracking-wider"
-                    >
-                      <ArrowUpRight className="h-3 w-3" />
-                      Live Demo
-                    </a>
-                    <span className="h-3 w-px bg-white/10" />
-                    <a
-                      href={proj.github}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="flex items-center gap-1.5 text-[10px] font-mono font-semibold text-neutral-500 group-hover:text-neutral-300 hover:text-white transition-colors uppercase tracking-wider"
-                    >
-                      <FaGithub className="h-3 w-3" />
-                      Source
-                    </a>
-                  </div>
-                </GlassCard>
-              </motion.div>
-            );
-          })}
-        </div>
-      </div>
 
       {/* ── Case Study Modal ── */}
       <AnimatePresence>

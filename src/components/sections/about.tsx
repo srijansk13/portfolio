@@ -67,10 +67,11 @@ export default function About() {
                   src="/images/profile.png"
                   alt="Budige Srijan Kumar Goud"
                   fill
+                  unoptimized={true}
                   sizes="176px"
                   className="object-cover object-[center_20%] scale-[1.12] transition-transform duration-500 ease-out group-hover/about-pic:scale-[1.18]"
                 />
-                <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,transparent_30%,rgba(2,2,4,0.7)_100%)] z-10 pointer-events-none mix-blend-multiply" />
+                <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,transparent_30%,rgba(2,2,4,0.7)_100%)] z-10 pointer-events-none" />
                 <div className="absolute inset-0 bg-gradient-to-t from-[#020204] via-transparent to-transparent opacity-90 z-10 pointer-events-none" />
               </div>
             </div>
@@ -94,7 +95,7 @@ export default function About() {
         <div className="lg:col-span-5 grid grid-cols-2 gap-4">
           {[
             { label: "Projects Shipped", value: "6+", icon: Briefcase, color: accentColor },
-            { label: "CGPA (B.Tech CSE)", value: "8.95", icon: GraduationCap, color: "#34d399" },
+            { label: "CGPA (B.Tech CSE)", value: "9.65", icon: GraduationCap, color: "#34d399" },
             { label: "Internships", value: "2", icon: Zap, color: "#f59e0b" },
             { label: "Open to Work", value: "Yes ✓", icon: Heart, color: "#f43f5e" },
           ].map((stat, idx) => {

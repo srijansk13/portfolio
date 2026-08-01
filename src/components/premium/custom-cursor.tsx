@@ -4,19 +4,18 @@ import { useEffect, useState, useRef } from "react";
 import { usePortfolioStore } from "@/hooks/use-portfolio-store";
 
 export default function CustomCursor() {
-  const [position, setPosition] = useState({ x: 0, y: 0 });
-  const [trail, setTrail] = useState({ x: 0, y: 0 });
   const [isHovering, setIsHovering] = useState(false);
   const [isVisible, setIsVisible] = useState(false);
   const [isClicking, setIsClicking] = useState(false);
   const [isTouchDevice, setIsTouchDevice] = useState(true);
   const { theme } = usePortfolioStore();
 
-  const trailRef = useRef({ x: 0, y: 0 });
+  const cursorRef = useRef<HTMLDivElement>(null);
+  const targetPos = useRef({ x: 0, y: 0 });
+  const currentPos = useRef({ x: 0, y: 0 });
   const requestRef = useRef<number | null>(null);
 
   useEffect(() => {
-    // Detect touch device
     const checkTouch = () => {
       const isTouch = "ontouchstart" in window || navigator.maxTouchPoints > 0;
       setIsTouchDevice(isTouch);
@@ -24,11 +23,11 @@ export default function CustomCursor() {
         document.documentElement.classList.add("cursor-none-all");
       }
     };
-    
     checkTouch();
 
     const onMouseMove = (e: MouseEvent) => {
-      setPosition({ x: e.clientX, y: e.clientY });
+      targetPos.current.x = e.clientX;
+      targetPos.current.y = e.clientY;
       setIsVisible(true);
     };
 
@@ -66,30 +65,26 @@ export default function CustomCursor() {
     };
   }, []);
 
-  // Smooth cursor trail using requestAnimationFrame lerp
   useEffect(() => {
     if (isTouchDevice) return;
 
-    const animateTrail = () => {
-      const targetX = position.x;
-      const targetY = position.y;
-      
-      // Interpolate position (0.15 represents the follow speed)
-      trailRef.current.x += (targetX - trailRef.current.x) * 0.16;
-      trailRef.current.y += (targetY - trailRef.current.y) * 0.16;
-      
-      setTrail({ x: trailRef.current.x, y: trailRef.current.y });
-      requestRef.current = requestAnimationFrame(animateTrail);
+    const updateCursor = () => {
+      if (cursorRef.current) {
+        currentPos.current.x += (targetPos.current.x - currentPos.current.x) * 0.25;
+        currentPos.current.y += (targetPos.current.y - currentPos.current.y) * 0.25;
+        
+        cursorRef.current.style.transform = `translate3d(${currentPos.current.x}px, ${currentPos.current.y}px, 0) translate3d(-50%, -50%, 0)`;
+      }
+      requestRef.current = requestAnimationFrame(updateCursor);
     };
 
-    requestRef.current = requestAnimationFrame(animateTrail);
+    requestRef.current = requestAnimationFrame(updateCursor);
     
     return () => {
       if (requestRef.current) cancelAnimationFrame(requestRef.current);
     };
-  }, [position, isTouchDevice]);
+  }, [isTouchDevice]);
 
-  // Inject cursor CSS overrides
   useEffect(() => {
     if (isTouchDevice) return;
     const style = document.createElement("style");
@@ -109,33 +104,34 @@ export default function CustomCursor() {
   const accentColor = theme.accentHex;
 
   return (
-    <>
-      {/* Outer Halo */}
+    <div
+      ref={cursorRef}
+      className="pointer-events-none fixed top-0 left-0 z-[9999] transition-opacity duration-300"
+      style={{
+        opacity: isVisible ? 1 : 0,
+      }}
+    >
       <div
-        className="pointer-events-none fixed top-0 left-0 z-9999 -translate-x-1/2 -translate-y-1/2 rounded-full border transition-transform duration-150 ease-out"
+        className="flex items-center justify-center rounded-full border transition-all duration-150 ease-out"
         style={{
-          left: `${trail.x}px`,
-          top: `${trail.y}px`,
           width: isHovering ? "48px" : "28px",
           height: isHovering ? "48px" : "28px",
           borderColor: accentColor,
           backgroundColor: isHovering ? `${accentColor}11` : "transparent",
-          transform: `translate(-50%, -50%) scale(${isClicking ? 0.8 : 1})`,
+          transform: `scale(${isClicking ? 0.8 : 1})`,
           boxShadow: theme.glowEnabled ? `0 0 15px ${accentColor}33` : "none",
         }}
-      />
-      {/* Inner Dot */}
-      <div
-        className="pointer-events-none fixed top-0 left-0 z-9999 -translate-x-1/2 -translate-y-1/2 rounded-full transition-transform duration-100 ease-out"
-        style={{
-          left: `${position.x}px`,
-          top: `${position.y}px`,
-          width: "6px",
-          height: "6px",
-          backgroundColor: accentColor,
-          transform: `translate(-50%, -50%) scale(${isHovering ? 1.5 : 1})`,
-        }}
-      />
-    </>
+      >
+        <div
+          className="rounded-full transition-transform duration-100 ease-out shrink-0"
+          style={{
+            width: "6px",
+            height: "6px",
+            backgroundColor: accentColor,
+            transform: `scale(${isHovering ? 1.5 : 1})`,
+          }}
+        />
+      </div>
+    </div>
   );
 }
